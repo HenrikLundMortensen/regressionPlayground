@@ -35,12 +35,6 @@ def error(y,yhat):
     return 1/n*sum([(y[i]-yhat[i])**2 for i in range(n)])
     
 
-
-
-    
-
-
-
 # stop
 targetdeg = 3
 Ntrain = 30
@@ -69,19 +63,12 @@ gamma = 0.001
 
 minerr = 10
 n = deg+1
-for i in range(5000):
+for i in range(14):
     reg = gamma*np.eye(n)
-    
     a = inv(Xtrain.T@Xtrain + reg)@Xtrain.T@ytrain
-    gamma = gamma - np.sqrt(gamma)*0.0001*regGrad(Xtest,ytest,a)
+    gamma = gamma - np.sqrt(abs(gamma))*0.01*regGrad(Xtest,ytest,a)
     yhattest = h(xtest,a)
     yhattrain = h(xtrain,a)
-    err = error(ytest,yhattest)
-    if err < minerr:
-        minerr = err
-        optgamma = gamma
-        opta = a
-    
     print('Gamma = %g, error_out = %g, error_in = %g, i = %g' %(gamma,error(ytest,yhattest),error(ytrain,yhattrain),i))
 
     
@@ -116,7 +103,7 @@ ax.plot(xtest,ytest,'go')
 
 ax.set_ylim([-8,20])
 
-fig.savefig('regression.png')
+fig.savefig('regressionGammaOpt.png')
 
 
 

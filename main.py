@@ -49,8 +49,8 @@ def linesearch(gamma,grad):
 
 # stop
 targetdeg = 3
-Ntrain = 50
-Ntest = 50
+Ntrain = 30
+Ntest = 30
 deg = 30
 # deg = targetdeg
 
@@ -58,8 +58,8 @@ deg = 30
 # generate_data(f,1,'train_data')
 # generate_data(f,1,'test_data')
 train_data = np.load('train_data.npy')
-xtrain = train_data[0][200:200+Ntrain]
-ytrain = train_data[1][200:200+Ntrain]
+xtrain = train_data[0][500:500+Ntrain]
+ytrain = train_data[1][500:500+Ntrain]
 
 test_data = np.load('test_data.npy')
 xtest = test_data[0][0:Ntest]
@@ -77,7 +77,7 @@ gamma = 0.01
 minerr = 10
 n = deg+1
 
-for i in range(1):
+for i in range(100):
     reg = gamma*np.eye(n)    
     a = inv(Xtrain.T@Xtrain + reg)@Xtrain.T@ytrain
     grad = regGrad(Xtest,ytest,a)
@@ -93,7 +93,7 @@ for i in range(1):
     
     print('Gamma = %g, error_out = %g, error_in = %g, grad = %g, i = %g' %(gamma,error(ytest,yhattest),error(ytrain,yhattrain),grad,i))
 
-    
+stop
 
 # gamma = 0.001
 # reg = gamma*np.ones(deg+1)
