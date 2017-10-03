@@ -23,7 +23,7 @@ def plotPoints(ax,x,y):
 def plotPred(ax,KRR,xstart,xend):
     """
     """
-    x = np.linspace(xstart,xend,100)
+    x = np.linspace(xstart,xend,400)
     y = KRR.predict(x)
     p = ax.plot(x,y)
     return p

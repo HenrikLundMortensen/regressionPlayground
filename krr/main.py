@@ -10,10 +10,10 @@ def f(x):
     """
     """
     # np.cos(0.5*np.pi*x) + 1 +
-    res = np.cos(0.5*np.pi*x) + 1
+    res = np.cos(0.5*np.pi*x) 
     for i in range(len(x)):
         if x[i] >= 4:
-            res[i] += + 0.2*np.sin(8*np.pi*x[i]) 
+            res[i] += + 0.2*np.sin(8*np.pi*x[i])
         
     return res
 
@@ -41,7 +41,7 @@ xval = np.append(np.linspace(0.2,4.8,15),np.linspace(4.1,4.8,15))
 yval = f(xval)+noise*np.random.normal(size=Nval)
 
 
-sigma = 0.1
+sigma = 0.7
 sigmaVec = np.array([sigma for i in range(Ntrain)])
 sigmaVec = np.append(np.linspace(1,1,10),np.linspace(0.2,0.2,25))
 gamma = 0.00001
@@ -56,8 +56,8 @@ KRR = regressor(kernel=gaussKernel,
                 gamma=gamma)
 KRR.getAlpha()
 
-beta = 0.005
-M = 40
+beta = 0.01
+M = 100
 tol = 2e-5
 
 for i in range(M):
@@ -112,8 +112,8 @@ KRR.getAlpha()
 fig = plt.figure()
 ax = fig.gca()
 plotf(ax,f,0,5)
-plotPoints(ax,xtrain,ytrain)
-plotPoints(ax,xval,yval)
+# plotPoints(ax,xtrain,ytrain)
+# plotPoints(ax,xval,yval)
 plotPred(ax,KRR,0,5)
 fig.savefig('functionPlot.png')
 
@@ -153,7 +153,7 @@ for xt in xtrain:
         xlocal = np.linspace(xt-5,xt+5,NKernelList)
         i = 0
         for xl in xlocal:
-            kernelList[i] = gaussKernel(xt,xl,KRR.sigmaVec[j])
+            kernelList[i] = KRR.alpha[j]*gaussKernel(xt,xl,KRR.sigmaVec[j])
             # KRR.alpha[j]*gaussKernel(xt,xl,KRR.sigmaVec[j])
             i+=1
         ax.plot(xlocal,kernelList,'green',linewidth=1)
