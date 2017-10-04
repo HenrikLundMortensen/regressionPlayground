@@ -8,25 +8,39 @@ from plots import *
 def f(x):
     """
     """
+    # np.cos(0.5*np.pi*x) + 1 +
+    res = np.cos(0.5*np.pi*x) 
+    for i in range(len(x)):
+        if x[i] >= 4:
+            res[i] += + 0.2*np.sin(8*np.pi*x[i])
+        
+    return res
+
+
+def linesearch(KRR,grad):
+    """
+    """
     
-    return np.cos(0.5*np.pi*x) + 1
+    res = minimize(lambda alpha: err_for_linesearch(gamma-alpha*grad),0.0001)
 
+    return res.x
 
-Ntrain = 10
-Nval = 10
+Ntrain = 35
+Nval = 30
 
 noise = 0.0
 
 xtrain = np.linspace(0,5,Ntrain)
-# xtrain = np.append(np.linspace(0,3,5),np.linspace(3.1,5,10))
+xtrain = np.append(np.linspace(0,4,10),np.linspace(4.1,5,25))
 # print(xtrain)
 ytrain = f(xtrain)+noise*np.random.normal(size=Ntrain)
 
 xval = np.linspace(0.2,4.8,Nval)
+xval = np.append(np.linspace(0.2,4.8,15),np.linspace(4.1,4.8,15))
 yval = f(xval)+noise*np.random.normal(size=Nval)
 
 
-sigma = 1.5
+sigma = 0.5
 gamma = 0.001
 
 KRR = regressor(kernel=gaussKernel,
@@ -42,14 +56,8 @@ KRR.getAlpha()
 
 
 
-
-
-
-
-
-
-beta = 10
-M = 500
+beta = 50
+M = 100
 tol = 1e-5
 
 for i in range(M):
@@ -68,14 +76,7 @@ minerr = err
 
 
 
-
-
-
-
-
-
-
-sigmalist = np.linspace(0.2,2,1000)
+sigmalist = np.linspace(0.2,2,100)
 errorList = np.zeros(len(sigmalist))
 gradList = np.zeros(len(sigmalist))
 i = 0
@@ -85,6 +86,7 @@ for s in sigmalist:
     gradList[i] = KRR.dLds()
     errorList[i] = KRR.getError(xval,yval)
     i += 1
+    print(i)
 
 
 

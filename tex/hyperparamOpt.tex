@@ -1,0 +1,52 @@
+\documentclass{memoir}
+\usepackage{tcolorbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+\newcommand{\mat}[1]{\ensuremath{\bm{#1}}}
+\newcommand{\iden}{\ensuremath{\mathds{I}}}
+\renewcommand{\vec}[1]{\ensuremath{\bm{#1}}}
+
+\title{Hyperparameter optimization with Lagrange multipliers}
+\author{Henrik Lund Mortensen}
+
+\begin{document}
+\maketitle
+
+
+
+\vspace{10pt}
+\begin{tcolorbox}[]
+\textbf{Problem:}\\
+Minimize $E_{\text{val}}(\vec{w})$ with respect to $\sigma $, where $\vec{w} = \left(\mat{K} +\gamma \frac{N}{2} \right)^{-1}\vec{Y}$
+\end{tcolorbox}
+\vspace{10pt}
+
+
+Instead of $E_{\text{val}}(\vec{\tilde{w}})$ we minimize the Lagrangian
+\begin{align}
+  \mathcal{L}(\vec{w},\vec{p},\sigma) = E_{\text{val}}(\vec{w}) + \vec{p} \cdot \left(\frac{2}{N} \left(\mat{K}\vec{w} -  \vec{Y} \right) + \gamma \vec{w} \right)
+  \label{lagranian}
+\end{align}
+The Lagrangian is minimized by setting all partial derivative to zero
+\begin{align}
+  \frac{\partial\mathcal{L}}{\partial \vec{w}} = 0 \;\;,\;\;\;\;
+  \frac{\partial\mathcal{L}}{\partial \vec{p}} = 0 \;\;,\;\;\;\;
+  \frac{\partial\mathcal{L}}{\partial \sigma} = 0
+  \label{dL = 0}
+\end{align}
+The derivative with respect to the multiplier gives
+\begin{align}
+ 0 =  \frac{\partial \mathcal{L}}{\partial\vec{p}} &= \frac{2}{N} \left(\mat{K}\vec{w} - \vec{Y}  \right) + \gamma \vec{w}  \\
+  \vec{w} &= \left(\mat{K} +\gamma \frac{N}{2} \right)^{-1}\vec{Y},
+\end{align}
+which is just the condition on $\vec{w}$. The derivative of $\mathcal{L}$ with respect to $\vec{w}$ ives
+\begin{align}
+  0 = \frac{\partial \mathcal{L}}{\partial \vec{w}} &= \frac{\partial E_{\text{val}}(\vec{w})}{\partial\vec{w}} + \vec{p} \cdot \left(\gamma + \frac{2}{N}\mat{K} \right)\\
+  \vec{p} &= -\frac{\partial E_{\text{val}}(\vec{w})}{\partial\vec{w}}\left(\gamma + \frac{2}{N}\mat{K} \right)^{-1}
+\end{align}
+
+
+
+\end{document}

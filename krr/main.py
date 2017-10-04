@@ -43,7 +43,7 @@ yval = f(xval)+noise*np.random.normal(size=Nval)
 
 sigma = 0.7
 sigmaVec = np.array([sigma for i in range(Ntrain)])
-sigmaVec = np.append(np.linspace(1,1,10),np.linspace(0.2,0.2,25))
+sigmaVec = np.append(np.linspace(1,1,10),np.linspace(0.05,0.05,25))
 gamma = 0.00001
 
 KRR = regressor(kernel=gaussKernel,
@@ -57,18 +57,18 @@ KRR = regressor(kernel=gaussKernel,
 KRR.getAlpha()
 
 beta = 0.01
-M = 100
+M = 200
 tol = 2e-5
 
-for i in range(M):
-    gradVec = KRR.dLdsi()
-    KRR.sigmaVec = KRR.sigmaVec - beta * gradVec
-    KRR.getAlpha()
-    err = KRR.getError(xval,yval)
-    print('error = %2.10f, i = %i/%i, |grad| = %1.10f' %(err,i,M,np.linalg.norm(gradVec)))
-    if np.linalg.norm(gradVec) < tol:
-        print('Breaking')
-        break
+# for i in range(M):
+#     gradVec = KRR.dLdsi()
+#     KRR.sigmaVec = KRR.sigmaVec - beta * gradVec
+#     KRR.getAlpha()
+#     err = KRR.getError(xval,yval)
+#     print('error = %2.10f, i = %i/%i, |grad| = %1.10f' %(err,i,M,np.linalg.norm(gradVec)))
+#     if np.linalg.norm(gradVec) < tol:
+#         print('Breaking')
+#         break
     # # print(KRR.sigmaVec)    
     
 
@@ -112,8 +112,8 @@ KRR.getAlpha()
 fig = plt.figure()
 ax = fig.gca()
 plotf(ax,f,0,5)
-# plotPoints(ax,xtrain,ytrain)
-# plotPoints(ax,xval,yval)
+plotPoints(ax,xtrain,ytrain)
+plotPoints(ax,xval,yval)
 plotPred(ax,KRR,0,5)
 fig.savefig('functionPlot.png')
 

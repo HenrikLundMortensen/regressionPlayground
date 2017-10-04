@@ -67,11 +67,10 @@ for i in range(14):
     reg = gamma*np.eye(n)
     a = inv(Xtrain.T@Xtrain + reg)@Xtrain.T@ytrain
     gamma = gamma - np.sqrt(abs(gamma))*0.01*regGrad(Xtest,ytest,a)
+    # gamma = 0.0007
     yhattest = h(xtest,a)
     yhattrain = h(xtrain,a)
     print('Gamma = %g, error_out = %g, error_in = %g, i = %g' %(gamma,error(ytest,yhattest),error(ytrain,yhattrain),i))
-
-    
 
 # gamma = 0.001
 # reg = gamma*np.ones(deg+1)
@@ -88,9 +87,6 @@ for i in range(14):
 
 
 x = np.linspace(-1,1,100)
-
-
-
 
 
 fig = plt.figure()
